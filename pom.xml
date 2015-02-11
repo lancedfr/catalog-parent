@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>catalog-config</module>
+        <module>catalog-spring-config</module>
         <module>catalog-repository</module>
         <module>catalog-server</module>
         <module>catalog-service</module>
