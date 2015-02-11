@@ -15,5 +15,5 @@ hs_err_pid*
 
 
 
-catalog-parent.iml
+*.iml
 .idea
