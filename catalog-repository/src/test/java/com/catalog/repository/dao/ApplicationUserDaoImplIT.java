@@ -30,7 +30,7 @@ public class ApplicationUserDaoImplIT {
         applicationUserDao = context.getBean(ApplicationUserDao.class);
     }
 
-    public ApplicationUser getApplicationUser() {
+    public ApplicationUser getTestApplicationUser() {
         ApplicationUser applicationUser = new ApplicationUser();
         applicationUser.setUserName(RandomStringUtils.random(1));
         applicationUser.setFirstName("FirstName");
@@ -43,7 +43,7 @@ public class ApplicationUserDaoImplIT {
 
     @Test
     public void testGetApplicationUser() throws Exception {
-        ApplicationUser applicationUser = getApplicationUser();
+        ApplicationUser applicationUser = getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         ApplicationUser getUser = applicationUserDao.getApplicationUser(applicationUser.getId());
         assertEquals(applicationUser.getFirstName(), getUser.getFirstName());
@@ -52,7 +52,7 @@ public class ApplicationUserDaoImplIT {
 
     @Test
     public void testUpdateApplicationUser() throws Exception {
-        ApplicationUser applicationUser = getApplicationUser();
+        ApplicationUser applicationUser = getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         ApplicationUser getUser1 = applicationUserDao.getApplicationUser(applicationUser.getId());
         getUser1.setFirstName("Other");
@@ -64,7 +64,7 @@ public class ApplicationUserDaoImplIT {
 
     @Test
     public void testAddApplicationUser() {
-        ApplicationUser applicationUser = getApplicationUser();
+        ApplicationUser applicationUser = getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         List<ApplicationUser> applicationUsers = applicationUserDao.getApplicationUsers();
         assertEquals(1, applicationUsers.size());
@@ -73,7 +73,7 @@ public class ApplicationUserDaoImplIT {
 
     @Test
     public void testDeleteApplicationUser() throws Exception {
-        ApplicationUser applicationUser = getApplicationUser();
+        ApplicationUser applicationUser = getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         applicationUserDao.deleteApplicationUser(applicationUser.getId());
         List<ApplicationUser> applicationUsers = applicationUserDao.getApplicationUsers();
@@ -82,7 +82,7 @@ public class ApplicationUserDaoImplIT {
 
     @Test
     public void testGetApplicationUserByUserName() throws Exception {
-        ApplicationUser applicationUser = getApplicationUser();
+        ApplicationUser applicationUser = getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         List<ApplicationUser> applicationUsers = applicationUserDao.getApplicationUsers();
         assertEquals(1, applicationUsers.size());

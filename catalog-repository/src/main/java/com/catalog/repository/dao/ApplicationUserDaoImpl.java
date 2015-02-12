@@ -25,8 +25,6 @@ import com.catalog.repository.domain.ApplicationUser;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +49,6 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
 
 	@Override
 	public void addApplicationUser(ApplicationUser user) {
-
         ApplicationUser userByName = getApplicationUserByUserName(user.getFirstName());
 		if (userByName == null) {
 			getCurrentSession().save(user);
@@ -79,9 +76,7 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
 		userToUpdate.setPassword(user.getPassword());
 		userToUpdate.setUserName(user.getUserName());
 		userToUpdate.setAge(user.getAge());
-
 		getCurrentSession().update(userToUpdate);
-
 	}
 
 	@Override
@@ -96,6 +91,7 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
 	}
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<ApplicationUser> getApplicationUsers() {
         return getCurrentSession().createCriteria(ApplicationUser.class).list();
     }
