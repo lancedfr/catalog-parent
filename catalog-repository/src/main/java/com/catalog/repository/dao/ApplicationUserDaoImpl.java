@@ -38,7 +38,6 @@ import java.util.List;
 public class ApplicationUserDaoImpl implements ApplicationUserDao {
 
 	/** The session factory. */
-	@Autowired
 	private SessionFactory sessionFactory;
 
 	/**

@@ -20,10 +20,9 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DefaultDaoTestConfig.class})
-public class ApplicationUserDaoImplTest {
+public class ApplicationUserDaoImplIT {
     @Autowired
     private ApplicationContext context;
-
     private ApplicationUserDao applicationUserDao;
 
     @Before
