@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created by ShaneV on 2015/02/13.
+ * Created by ShaneMK on 2015/02/13.
  */
 @Entity
 @Table(name = "article")
