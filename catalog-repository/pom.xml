@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>catalog-parent</artifactId>
@@ -25,9 +25,9 @@
             <version>3.3.2</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>com.ibm.db2</groupId>-->
-            <!--<artifactId>db2jcc</artifactId>-->
-            <!--<version>3.1.57</version>-->
+        <!--<groupId>com.ibm.db2</groupId>-->
+        <!--<artifactId>db2jcc</artifactId>-->
+        <!--<version>3.1.57</version>-->
         <!--</dependency>-->
         <!--internal-->
         <dependency>

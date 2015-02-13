@@ -10,7 +10,6 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
 import java.util.Properties;
 
 /**
@@ -36,7 +35,7 @@ public class PersistenceTestConfig extends AbstractSpringConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getBean(DataSource.class));
-        sessionFactory.setPackagesToScan(new String[]{"com.catalog.repository.domain"});
+        sessionFactory.setPackagesToScan("com.catalog.repository.domain");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

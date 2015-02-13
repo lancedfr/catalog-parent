@@ -8,7 +8,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "application_user")
 public class ApplicationUser {
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue
     private Integer id;
@@ -38,16 +40,16 @@ public class ApplicationUser {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {

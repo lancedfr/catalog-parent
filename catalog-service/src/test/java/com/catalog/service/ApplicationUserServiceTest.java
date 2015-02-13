@@ -2,14 +2,15 @@ package com.catalog.service;
 
 import com.catalog.repository.dao.ApplicationUserDao;
 import com.catalog.repository.domain.ApplicationUser;
-import static junit.framework.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import static org.mockito.Mockito.*;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Lance on 12/02/2015.

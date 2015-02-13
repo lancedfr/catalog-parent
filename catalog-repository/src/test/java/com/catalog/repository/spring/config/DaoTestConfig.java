@@ -8,7 +8,6 @@ import com.catalog.spring.config.AbstractSpringConfiguration;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 /**
  * Created by Lance on 11/02/2015.
@@ -22,6 +21,7 @@ public class DaoTestConfig extends AbstractSpringConfiguration {
         applicationUserDao.setSessionFactory(getBean(SessionFactory.class));
         return applicationUserDao;
     }
+
     @Bean
     public ArticleDao articleDao() {
         ArticleDaoImpl articleDao = new ArticleDaoImpl();

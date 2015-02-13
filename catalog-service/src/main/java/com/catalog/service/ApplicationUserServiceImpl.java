@@ -15,11 +15,11 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         return applicationUserDao.getApplicationUser(id);
     }
 
-    public void setApplicationUserDao(ApplicationUserDao applicationUserDao) {
-        this.applicationUserDao = applicationUserDao;
-    }
-
     public ApplicationUserDao getApplicationUserDao() {
         return applicationUserDao;
+    }
+
+    public void setApplicationUserDao(ApplicationUserDao applicationUserDao) {
+        this.applicationUserDao = applicationUserDao;
     }
 }

@@ -28,20 +28,13 @@ public class AbstractSpringConfiguration implements BeanFactoryPostProcessor, Be
         if (m != null) {
             try {
                 m.invoke(this, bean);
-            }
-            catch (IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
-            }
-            catch (InvocationTargetException e) {
+            } catch (InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }
         return bean;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 
     @Override
@@ -51,6 +44,11 @@ public class AbstractSpringConfiguration implements BeanFactoryPostProcessor, Be
 
     protected ApplicationContext getApplicationContext() {
         return applicationContext;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
     protected <T> T getBean(Class<T> clazz) {

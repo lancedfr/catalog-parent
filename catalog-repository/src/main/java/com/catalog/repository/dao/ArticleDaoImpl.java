@@ -4,7 +4,6 @@ import com.catalog.repository.domain.Article;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -20,18 +19,17 @@ public class ArticleDaoImpl implements ArticleDao {
 
     private SessionFactory sessionFactory;
 
-    private Session getCurrentSession(){return sessionFactory.getCurrentSession();}
+    private Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
     @Override
     public void addArticle(Article article) {
-        Article addArticle = findArticle(article.getId());
-        if (addArticle != null)
-        {
+        Article addArticle = getArticle(article.getId());
+        if (addArticle != null) {
             article.setId(addArticle.getId());
-            amendArticle(article);
-        }
-        else
-        {
+            updateArticle(article);
+        } else {
             getCurrentSession().save(article);
         }
 
@@ -40,18 +38,17 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public void deleteArticle(Article article) {
 
-        Article deleteArticle = findArticle(article.getId());
+        Article deleteArticle = getArticle(article.getId());
         if (deleteArticle != null)
             getCurrentSession().delete(deleteArticle);
 
     }
 
     @Override
-    public void amendArticle(Article article) {
+    public void updateArticle(Article article) {
 
-        Article updateArticle = findArticle(article.getId());
-        if(updateArticle != null)
-        {
+        Article updateArticle = getArticle(article.getId());
+        if (updateArticle != null) {
             updateArticle.setName(article.getName());
             updateArticle.setBarcode(article.getBarcode());
             updateArticle.setCreatedDate(article.getCreatedDate());
@@ -66,19 +63,20 @@ public class ArticleDaoImpl implements ArticleDao {
     }
 
     @Override
-    public Article findArticle(Integer id) {
+    public Article getArticle(Integer id) {
 
         return (Article) getCurrentSession().get(Article.class, id);
     }
 
     @Override
-    public Article findArticleByName(String name) {
-        return (Article) getCurrentSession().createCriteria(Article.class).add(Restrictions.eq("name",name)).uniqueResult();
+    public Article getArticleByName(String name) {
+        return (Article) getCurrentSession().createCriteria(Article.class).add(Restrictions.eq("name", name)).uniqueResult();
 
     }
 
     @Override
-    public List<Article> getArticleList() {
+    @SuppressWarnings("unchecked")
+    public List<Article> getArticles() {
         return getCurrentSession().createCriteria(Article.class).list();
     }
 

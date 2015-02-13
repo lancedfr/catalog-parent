@@ -35,60 +35,62 @@ import java.util.List;
 @Transactional
 public class ApplicationUserDaoImpl implements ApplicationUserDao {
 
-	/** The session factory. */
-	private SessionFactory sessionFactory;
+    /**
+     * The session factory.
+     */
+    private SessionFactory sessionFactory;
 
-	/**
-	 * Gets the current session.
-	 *
-	 * @return the current session
-	 */
-	private Session getCurrentSession() {
-		return sessionFactory.getCurrentSession();
-	}
+    /**
+     * Gets the current session.
+     *
+     * @return the current session
+     */
+    private Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
-	@Override
-	public void addApplicationUser(ApplicationUser user) {
+    @Override
+    public void addApplicationUser(ApplicationUser user) {
         ApplicationUser userByName = getApplicationUserByUserName(user.getFirstName());
-		if (userByName == null) {
-			getCurrentSession().save(user);
-		} else {
-			user.setId(userByName.getId());
-			updateApplicationUser(user);
-		}
-	}
+        if (userByName == null) {
+            getCurrentSession().save(user);
+        } else {
+            user.setId(userByName.getId());
+            updateApplicationUser(user);
+        }
+    }
 
-	@Override
-	public void deleteApplicationUser(Integer id) {
+    @Override
+    public void deleteApplicationUser(Integer id) {
         ApplicationUser user = getApplicationUser(id);
-		if (user != null) {
-			getCurrentSession().delete(user);
-		}
+        if (user != null) {
+            getCurrentSession().delete(user);
+        }
 
-	}
+    }
 
-	@Override
-	public void updateApplicationUser(ApplicationUser user) {
+    @Override
+    public void updateApplicationUser(ApplicationUser user) {
         ApplicationUser userToUpdate = getApplicationUser(user.getId());
-		userToUpdate.setFirstName(user.getFirstName());
-		userToUpdate.setGender(user.getGender());
-		userToUpdate.setLastName(user.getLastName());
-		userToUpdate.setPassword(user.getPassword());
-		userToUpdate.setUserName(user.getUserName());
-		userToUpdate.setAge(user.getAge());
-		getCurrentSession().update(userToUpdate);
-	}
+        userToUpdate.setFirstName(user.getFirstName());
+        userToUpdate.setGender(user.getGender());
+        userToUpdate.setLastName(user.getLastName());
+        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setUserName(user.getUserName());
+        userToUpdate.setAge(user.getAge());
+        getCurrentSession().update(userToUpdate);
+    }
 
-	@Override
-	public ApplicationUser getApplicationUser(Integer id) {
-		return (ApplicationUser) getCurrentSession().get(ApplicationUser.class, id);
-	}
+    @Override
+    public ApplicationUser getApplicationUser(Integer id) {
+        return (ApplicationUser) getCurrentSession().get(ApplicationUser.class, id);
+    }
 
-	@Override
-	public ApplicationUser getApplicationUserByUserName(String userName) {
-		return (ApplicationUser) getCurrentSession().createCriteria(ApplicationUser.class)
-				.add(Restrictions.eq("userName", userName)).uniqueResult();
-	}
+    @Override
+    public ApplicationUser getApplicationUserByUserName(String userName) {
+        return (ApplicationUser) getCurrentSession().createCriteria(ApplicationUser.class)
+                .add(Restrictions.eq("userName", userName)).uniqueResult();
+    }
 
     @Override
     @SuppressWarnings("unchecked")

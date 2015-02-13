@@ -13,12 +13,12 @@ public interface ArticleDao {
 
     public void deleteArticle(Article article);
 
-    public void amendArticle(Article article);
+    public void updateArticle(Article article);
 
-    public Article findArticle(Integer id);
+    public Article getArticle(Integer id);
 
-    public Article findArticleByName(String name);
+    public Article getArticleByName(String name);
 
-    List<Article> getArticleList();
+    List<Article> getArticles();
 
 }
