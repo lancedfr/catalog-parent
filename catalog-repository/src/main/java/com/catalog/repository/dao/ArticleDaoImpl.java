@@ -1,46 +1,88 @@
 package com.catalog.repository.dao;
 
 import com.catalog.repository.domain.Article;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
- * Created by ShaneV on 2015/02/13.
+ * Created by ShaneMK on 2015/02/13.
  */
+
+@Repository
+@Transactional
 public class ArticleDaoImpl implements ArticleDao {
 
-    @Autowired
     private SessionFactory sessionFactory;
+
+    private Session getCurrentSession(){return sessionFactory.getCurrentSession();}
 
     @Override
     public void addArticle(Article article) {
+        Article addArticle = findArticle(article.getId());
+        if (addArticle != null)
+        {
+            article.setId(addArticle.getId());
+            amendArticle(article);
+        }
+        else
+        {
+            getCurrentSession().save(article);
+        }
 
     }
 
     @Override
     public void deleteArticle(Article article) {
 
+        Article deleteArticle = findArticle(article.getId());
+        if (deleteArticle != null)
+            getCurrentSession().delete(deleteArticle);
+
     }
 
     @Override
     public void amendArticle(Article article) {
 
+        Article updateArticle = findArticle(article.getId());
+        if(updateArticle != null)
+        {
+            updateArticle.setName(article.getName());
+            updateArticle.setBarcode(article.getBarcode());
+            updateArticle.setCreatedDate(article.getCreatedDate());
+            updateArticle.setDeletedDate(article.getDeletedDate());
+            updateArticle.setPhasedOutDate(article.getPhasedOutDate());
+            updateArticle.setLongDescription(article.getLongDescription());
+            updateArticle.setShortDescription(article.getShortDescription());
+            updateArticle.setPrice(article.getPrice());
+            getCurrentSession().update(updateArticle);
+        }
+
     }
 
     @Override
     public Article findArticle(Integer id) {
-        return null;
+
+        return (Article) getCurrentSession().get(Article.class, id);
     }
 
     @Override
     public Article findArticleByName(String name) {
-        return null;
+        return (Article) getCurrentSession().createCriteria(Article.class).add(Restrictions.eq("name",name)).uniqueResult();
+
     }
 
     @Override
     public List<Article> getArticleList() {
-        return null;
+        return getCurrentSession().createCriteria(Article.class).list();
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }
