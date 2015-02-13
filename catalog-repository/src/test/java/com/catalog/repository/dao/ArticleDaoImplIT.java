@@ -103,6 +103,7 @@ public class ArticleDaoImplIT {
         assertEquals(2,articleList.size());
 
         articleDao.deleteArticle(testArticle);
+        articleDao.deleteArticle(testSecondArticle);
     }
 
     @Test
