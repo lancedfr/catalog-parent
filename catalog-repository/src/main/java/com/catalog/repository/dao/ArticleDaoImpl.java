@@ -32,21 +32,18 @@ public class ArticleDaoImpl implements ArticleDao {
         } else {
             getCurrentSession().save(article);
         }
-
     }
 
     @Override
     public void deleteArticle(Article article) {
-
         Article deleteArticle = getArticle(article.getId());
-        if (deleteArticle != null)
+        if (deleteArticle != null) {
             getCurrentSession().delete(deleteArticle);
-
+        }
     }
 
     @Override
     public void updateArticle(Article article) {
-
         Article updateArticle = getArticle(article.getId());
         if (updateArticle != null) {
             updateArticle.setName(article.getName());
@@ -59,19 +56,16 @@ public class ArticleDaoImpl implements ArticleDao {
             updateArticle.setPrice(article.getPrice());
             getCurrentSession().update(updateArticle);
         }
-
     }
 
     @Override
     public Article getArticle(Integer id) {
-
         return (Article) getCurrentSession().get(Article.class, id);
     }
 
     @Override
     public Article getArticleByName(String name) {
         return (Article) getCurrentSession().createCriteria(Article.class).add(Restrictions.eq("name", name)).uniqueResult();
-
     }
 
     @Override

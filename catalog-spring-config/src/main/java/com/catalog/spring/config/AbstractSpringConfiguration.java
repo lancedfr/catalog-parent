@@ -1,5 +1,6 @@
 package com.catalog.spring.config;
 
+import com.catalog.spring.config.exception.SpringConfigException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -29,9 +30,9 @@ public class AbstractSpringConfiguration implements BeanFactoryPostProcessor, Be
             try {
                 m.invoke(this, bean);
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throw new SpringConfigException(e.getMessage(), e);
             } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
+                throw new SpringConfigException(e.getMessage(), e);
             }
         }
         return bean;
