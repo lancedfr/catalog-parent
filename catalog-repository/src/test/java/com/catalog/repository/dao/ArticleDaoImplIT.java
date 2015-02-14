@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2015. All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the Apache License, Version 2.0 (the "License")
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * You should have received a copy of the "License" with this file.
+ * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package com.catalog.repository.dao;
 
 import com.catalog.repository.domain.Article;
@@ -33,7 +48,7 @@ public class ArticleDaoImplIT {
     }
 
     @Test
-    public void testGetArticle() throws Exception {
+    public void testGetArticle() {
         //Creating a new Article
         Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
@@ -48,7 +63,7 @@ public class ArticleDaoImplIT {
     }
 
     @Test
-    public void testUpdateArticle() throws Exception {
+    public void testUpdateArticle() {
         //Create Article
         Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
@@ -66,7 +81,7 @@ public class ArticleDaoImplIT {
     }
 
     @Test
-    public void testAddArticle() throws Exception {
+    public void testAddArticle() {
         //Create Article
         Article testArticle = DomainUtil.getTestArticle();
 
@@ -90,7 +105,7 @@ public class ArticleDaoImplIT {
     }
 
     @Test
-    public void testDeleteArticle() throws Exception {
+    public void testDeleteArticle() {
         //Create Article
         Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
@@ -105,7 +120,7 @@ public class ArticleDaoImplIT {
     }
 
     @Test
-    public void testFindArticleByName() throws Exception {
+    public void testFindArticleByName() {
         //Create Article
         Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);

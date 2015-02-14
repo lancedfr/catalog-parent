@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2015. All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the Apache License, Version 2.0 (the "License")
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * You should have received a copy of the "License" with this file.
+ * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package com.catalog.repository.dao;
 
 import com.catalog.repository.dao.exception.DaoException;
@@ -34,7 +49,7 @@ public class ApplicationUserDaoImplIT {
     }
 
     @Test
-    public void testAddApplicationUser() throws Exception {
+    public void testAddApplicationUser() throws DaoException {
         ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         List<ApplicationUser> applicationUsers = applicationUserDao.getApplicationUsers();
@@ -46,7 +61,7 @@ public class ApplicationUserDaoImplIT {
     }
 
     @Test
-    public void testDeleteApplicationUser() throws Exception {
+    public void testDeleteApplicationUser() throws DaoException {
         ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         applicationUserDao.deleteApplicationUser(applicationUser.getId());
@@ -55,7 +70,7 @@ public class ApplicationUserDaoImplIT {
     }
 
     @Test
-    public void testUpdateApplicationUser() throws Exception {
+    public void testUpdateApplicationUser() throws DaoException {
         ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
         applicationUser.setId(Integer.MAX_VALUE);
         applicationUserDao.addApplicationUser(applicationUser);
@@ -68,14 +83,14 @@ public class ApplicationUserDaoImplIT {
     }
 
     @Test(expected = DaoException.class)
-    public void testUpdateApplicationUserDaoException() throws Exception {
+    public void testUpdateApplicationUserDaoException() throws DaoException {
         ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
         applicationUser.setId(Integer.valueOf(RandomStringUtils.randomNumeric(4)));
         applicationUserDao.updateApplicationUser(applicationUser);
     }
 
     @Test
-    public void testGetApplicationUser() throws Exception {
+    public void testGetApplicationUser() throws DaoException {
         ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         ApplicationUser getUser = applicationUserDao.getApplicationUser(applicationUser.getId());
@@ -84,7 +99,7 @@ public class ApplicationUserDaoImplIT {
     }
 
     @Test
-    public void testGetApplicationUserByEmailAddress() throws Exception {
+    public void testGetApplicationUserByEmailAddress() throws DaoException {
         ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         ApplicationUser userByUserName = applicationUserDao.getApplicationUserByEmailAddress(applicationUser.getEmailAddress());
@@ -93,7 +108,7 @@ public class ApplicationUserDaoImplIT {
     }
 
     @Test
-    public void testGetApplicationUsers() throws Exception {
+    public void testGetApplicationUsers() throws DaoException {
         ApplicationUser applicationUser1 = DomainUtil.getTestApplicationUser();
         ApplicationUser applicationUser2 = DomainUtil.getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser1);
