@@ -1,7 +1,9 @@
 package com.catalog.repository.dao;
 
+import com.catalog.repository.dao.exception.DaoException;
 import com.catalog.repository.domain.ApplicationUser;
 import com.catalog.repository.spring.config.DefaultDaoTestConfig;
+import com.catalog.repository.util.DomainUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,50 +33,21 @@ public class ApplicationUserDaoImplIT {
         applicationUserDao = context.getBean(ApplicationUserDao.class);
     }
 
-    public ApplicationUser getTestApplicationUser() {
-        ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setUserName(RandomStringUtils.random(1));
-        applicationUser.setFirstName("FirstName");
-        applicationUser.setGender("Gender");
-        applicationUser.setAge(1);
-        applicationUser.setLastName("LastName");
-        applicationUser.setPassword("Password");
-        return applicationUser;
-    }
-
     @Test
-    public void testGetApplicationUser() throws Exception {
-        ApplicationUser applicationUser = getTestApplicationUser();
-        applicationUserDao.addApplicationUser(applicationUser);
-        ApplicationUser getUser = applicationUserDao.getApplicationUser(applicationUser.getId());
-        assertEquals(applicationUser.getFirstName(), getUser.getFirstName());
-        applicationUserDao.deleteApplicationUser(applicationUser.getId());
-    }
-
-    @Test
-    public void testUpdateApplicationUser() throws Exception {
-        ApplicationUser applicationUser = getTestApplicationUser();
-        applicationUserDao.addApplicationUser(applicationUser);
-        ApplicationUser getUser1 = applicationUserDao.getApplicationUser(applicationUser.getId());
-        getUser1.setFirstName("Other");
-        applicationUserDao.updateApplicationUser(getUser1);
-        ApplicationUser getUser2 = applicationUserDao.getApplicationUser(getUser1.getId());
-        assertEquals("Other", getUser2.getFirstName());
-        applicationUserDao.deleteApplicationUser(applicationUser.getId());
-    }
-
-    @Test
-    public void testAddApplicationUser() {
-        ApplicationUser applicationUser = getTestApplicationUser();
+    public void testAddApplicationUser() throws Exception {
+        ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         List<ApplicationUser> applicationUsers = applicationUserDao.getApplicationUsers();
+        assertEquals(1, applicationUsers.size());
+        applicationUserDao.addApplicationUser(applicationUser);
+        applicationUsers = applicationUserDao.getApplicationUsers();
         assertEquals(1, applicationUsers.size());
         applicationUserDao.deleteApplicationUser(applicationUser.getId());
     }
 
     @Test
     public void testDeleteApplicationUser() throws Exception {
-        ApplicationUser applicationUser = getTestApplicationUser();
+        ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
         applicationUserDao.addApplicationUser(applicationUser);
         applicationUserDao.deleteApplicationUser(applicationUser.getId());
         List<ApplicationUser> applicationUsers = applicationUserDao.getApplicationUsers();
@@ -82,14 +55,51 @@ public class ApplicationUserDaoImplIT {
     }
 
     @Test
-    public void testGetApplicationUserByUserName() throws Exception {
-        ApplicationUser applicationUser = getTestApplicationUser();
+    public void testUpdateApplicationUser() throws Exception {
+        ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
+        applicationUser.setId(Integer.MAX_VALUE);
         applicationUserDao.addApplicationUser(applicationUser);
-        List<ApplicationUser> applicationUsers = applicationUserDao.getApplicationUsers();
-        assertEquals(1, applicationUsers.size());
-        ApplicationUser userByUserName = applicationUserDao.getApplicationUserByUserName(applicationUser.getUserName());
+        ApplicationUser addedApplicationUser = applicationUserDao.getApplicationUser(applicationUser.getId());
+        addedApplicationUser.setFirstName("Other");
+        applicationUserDao.updateApplicationUser(addedApplicationUser);
+        ApplicationUser updatedApplicationUser = applicationUserDao.getApplicationUser(addedApplicationUser.getId());
+        assertEquals("Other", updatedApplicationUser.getFirstName());
+        applicationUserDao.deleteApplicationUser(applicationUser.getId());
+    }
+
+    @Test(expected = DaoException.class)
+    public void testUpdateApplicationUserDaoException() throws Exception {
+        ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
+        applicationUser.setId(Integer.valueOf(RandomStringUtils.randomNumeric(4)));
+        applicationUserDao.updateApplicationUser(applicationUser);
+    }
+
+    @Test
+    public void testGetApplicationUser() throws Exception {
+        ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
+        applicationUserDao.addApplicationUser(applicationUser);
+        ApplicationUser getUser = applicationUserDao.getApplicationUser(applicationUser.getId());
+        assertEquals(applicationUser.getFirstName(), getUser.getFirstName());
+        applicationUserDao.deleteApplicationUser(applicationUser.getId());
+    }
+
+    @Test
+    public void testGetApplicationUserByEmailAddress() throws Exception {
+        ApplicationUser applicationUser = DomainUtil.getTestApplicationUser();
+        applicationUserDao.addApplicationUser(applicationUser);
+        ApplicationUser userByUserName = applicationUserDao.getApplicationUserByEmailAddress(applicationUser.getEmailAddress());
         assertEquals(userByUserName.getFirstName(), applicationUser.getFirstName());
         applicationUserDao.deleteApplicationUser(applicationUser.getId());
+    }
+
+    @Test
+    public void testGetApplicationUsers() throws Exception {
+        ApplicationUser applicationUser1 = DomainUtil.getTestApplicationUser();
+        ApplicationUser applicationUser2 = DomainUtil.getTestApplicationUser();
+        applicationUserDao.addApplicationUser(applicationUser1);
+        applicationUserDao.addApplicationUser(applicationUser2);
+        List<ApplicationUser> applicationUsers = applicationUserDao.getApplicationUsers();
+        assertEquals(applicationUsers.size(), 2);
     }
 
 }

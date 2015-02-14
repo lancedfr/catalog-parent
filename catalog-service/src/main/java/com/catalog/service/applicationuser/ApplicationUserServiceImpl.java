@@ -1,4 +1,4 @@
-package com.catalog.service;
+package com.catalog.service.applicationuser;
 
 import com.catalog.repository.dao.ApplicationUserDao;
 import com.catalog.repository.domain.ApplicationUser;

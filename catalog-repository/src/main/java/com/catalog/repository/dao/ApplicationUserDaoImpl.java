@@ -21,7 +21,10 @@
 
 package com.catalog.repository.dao;
 
+import com.catalog.repository.dao.exception.DaoException;
 import com.catalog.repository.domain.ApplicationUser;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -50,35 +53,38 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
     }
 
     @Override
-    public void addApplicationUser(ApplicationUser user) {
-        ApplicationUser userByName = getApplicationUserByUserName(user.getFirstName());
-        if (userByName == null) {
+    public void addApplicationUser(ApplicationUser user) throws DaoException {
+        ApplicationUser applicationUserByEmailAddress = getApplicationUserByEmailAddress(user.getEmailAddress());
+        if (applicationUserByEmailAddress == null) {
             getCurrentSession().save(user);
         } else {
-            user.setId(userByName.getId());
+            user.setId(applicationUserByEmailAddress.getId());
             updateApplicationUser(user);
         }
     }
 
     @Override
     public void deleteApplicationUser(Integer id) {
-        ApplicationUser user = getApplicationUser(id);
-        if (user != null) {
-            getCurrentSession().delete(user);
-        }
-
+        ApplicationUser applicationUser = new ApplicationUser();
+        applicationUser.setId(id);
+        getCurrentSession().delete(applicationUser);
     }
 
     @Override
-    public void updateApplicationUser(ApplicationUser user) {
+    public void updateApplicationUser(ApplicationUser user) throws DaoException {
         ApplicationUser userToUpdate = getApplicationUser(user.getId());
-        userToUpdate.setFirstName(user.getFirstName());
-        userToUpdate.setGender(user.getGender());
-        userToUpdate.setLastName(user.getLastName());
-        userToUpdate.setPassword(user.getPassword());
-        userToUpdate.setUserName(user.getUserName());
-        userToUpdate.setAge(user.getAge());
-        getCurrentSession().update(userToUpdate);
+        if (userToUpdate != null) {
+            userToUpdate.setFirstName(user.getFirstName());
+            userToUpdate.setGender(user.getGender());
+            userToUpdate.setLastName(user.getLastName());
+            userToUpdate.setPassword(user.getPassword());
+            userToUpdate.setEmailAddress(user.getEmailAddress());
+            userToUpdate.setAge(user.getAge());
+            getCurrentSession().update(userToUpdate);
+        } else {
+            ReflectionToStringBuilder.toString(user, ToStringStyle.DEFAULT_STYLE);
+            throw new DaoException("User to update not found: " + ReflectionToStringBuilder.toString(user, ToStringStyle.DEFAULT_STYLE));
+        }
     }
 
     @Override
@@ -87,9 +93,9 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
     }
 
     @Override
-    public ApplicationUser getApplicationUserByUserName(String userName) {
+    public ApplicationUser getApplicationUserByEmailAddress(String emailAddress) {
         return (ApplicationUser) getCurrentSession().createCriteria(ApplicationUser.class)
-                .add(Restrictions.eq("userName", userName)).uniqueResult();
+                .add(Restrictions.eq("emailAddress", emailAddress)).uniqueResult();
     }
 
     @Override

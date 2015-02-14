@@ -2,6 +2,7 @@ package com.catalog.repository.dao;
 
 import com.catalog.repository.domain.Article;
 import com.catalog.repository.spring.config.DefaultDaoTestConfig;
+import com.catalog.repository.util.DomainUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -33,23 +32,10 @@ public class ArticleDaoImplIT {
         articleDao = applicationContext.getBean(ArticleDao.class);
     }
 
-    public Article getTestArticle() {
-        Article article = new Article();
-        article.setName("Product");
-        article.setShortDescription("ProductDescription");
-        article.setLongDescription("ProductDescriptionForArticle");
-        article.setCreatedDate(Calendar.getInstance().getTime());
-        article.setPhasedOutDate(Calendar.getInstance().getTime());
-        article.setDeletedDate(Calendar.getInstance().getTime());
-        article.setPrice(BigDecimal.ONE);
-        article.setBarcode("BarCode");
-        return article;
-    }
-
     @Test
     public void testGetArticle() throws Exception {
         //Creating a new Article
-        Article testArticle = getTestArticle();
+        Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
 
         //Testing the Get of the Article
@@ -64,7 +50,7 @@ public class ArticleDaoImplIT {
     @Test
     public void testUpdateArticle() throws Exception {
         //Create Article
-        Article testArticle = getTestArticle();
+        Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
 
         //Update Article
@@ -82,13 +68,13 @@ public class ArticleDaoImplIT {
     @Test
     public void testAddArticle() throws Exception {
         //Create Article
-        Article testArticle = getTestArticle();
+        Article testArticle = DomainUtil.getTestArticle();
 
         //Add Article
         articleDao.addArticle(testArticle);
 
         //Add New Article
-        Article testSecondArticle = getTestArticle();
+        Article testSecondArticle = DomainUtil.getTestArticle();
         testSecondArticle.setName("New Product");
         testSecondArticle.setBarcode("New Barcode");
 
@@ -106,7 +92,7 @@ public class ArticleDaoImplIT {
     @Test
     public void testDeleteArticle() throws Exception {
         //Create Article
-        Article testArticle = getTestArticle();
+        Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
 
         //Delete Article
@@ -121,11 +107,11 @@ public class ArticleDaoImplIT {
     @Test
     public void testFindArticleByName() throws Exception {
         //Create Article
-        Article testArticle = getTestArticle();
+        Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
 
         //Find Article
-        Article findArticle = articleDao.getArticleByName("Product");
+        Article findArticle = articleDao.getArticleByName(testArticle.getName());
 
         assertEquals(findArticle.getBarcode(), testArticle.getBarcode());
         articleDao.deleteArticle(testArticle);

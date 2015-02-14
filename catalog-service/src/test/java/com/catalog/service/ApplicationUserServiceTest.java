@@ -2,6 +2,7 @@ package com.catalog.service;
 
 import com.catalog.repository.dao.ApplicationUserDao;
 import com.catalog.repository.domain.ApplicationUser;
+import com.catalog.service.applicationuser.ApplicationUserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
