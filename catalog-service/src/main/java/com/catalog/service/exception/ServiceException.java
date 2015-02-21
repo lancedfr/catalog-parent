@@ -13,18 +13,25 @@
  * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package com.catalog.service.applicationuser;
-
-import com.catalog.repository.domain.ApplicationUser;
-import com.catalog.service.exception.ServiceException;
+package com.catalog.service.exception;
 
 /**
- * Created by Lance on 12/02/2015.
+ * Created by Lance on 14/02/2015.
  */
-public interface ApplicationUserService {
+public class ServiceException extends Exception {
+    public ServiceException() {
+        super();
+    }
 
-    void addApplicationUser(ApplicationUser user) throws ServiceException;
+    public ServiceException(String message) {
+        super(message);
+    }
 
-    ApplicationUser getApplicationUser(Integer id) throws ServiceException;
+    public ServiceException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
+    public ServiceException(Throwable cause) {
+        super(cause);
+    }
 }
