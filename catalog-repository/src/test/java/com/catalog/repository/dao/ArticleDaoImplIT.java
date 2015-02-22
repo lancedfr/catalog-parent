@@ -32,6 +32,7 @@ import static org.junit.Assert.assertEquals;
 
 
 /**
+ * ArticleDaoImplIT integration test
  * Created by ShaneMK on 2015/02/13.
  */
 @RunWith(SpringJUnit4ClassRunner.class)

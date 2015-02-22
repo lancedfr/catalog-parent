@@ -31,6 +31,7 @@
         <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.connector.version>5.1.31</mysql.connector.version>
         <hsqldb.version>2.3.2</hsqldb.version>
+        <java-version>1.8</java-version>
     </properties>
 
     <dependencies>
@@ -45,11 +46,6 @@
         <!--<version>3.1.57</version>-->
         <!--</dependency>-->
         <!--internal-->
-        <dependency>
-            <groupId>com.catalog</groupId>
-            <artifactId>catalog-spring-config</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!-- DB related dependencies -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -78,6 +74,12 @@
             <version>${spring.version}</version>
         </dependency>
         <!--Tests-->
+        <dependency>
+            <groupId>com.catalog</groupId>
+            <artifactId>catalog-spring-config</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

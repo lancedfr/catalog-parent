@@ -13,15 +13,17 @@
  * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package com.catalog.server.resources;
+package com.catalog.webapp.resources;
 
 import com.catalog.repository.domain.ApplicationUser;
 import com.catalog.service.applicationuser.ApplicationUserService;
 import com.catalog.service.exception.ServiceException;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * ApplicationUserResource to expose services for ApplicationUser externally
  * Created by Lance on 13/02/2015.
  */
 @Controller
@@ -29,8 +31,19 @@ public class ApplicationUserResource {
 
     private ApplicationUserService applicationUserService;
 
+    /**
+     * Gets a dummy ApplicationUser for testing
+     *
+     * @return the ApplicationUser product
+     */
     @ResponseBody
-    @RequestMapping(value = "/rest/applicationuser", method = RequestMethod.POST)
+    @RequestMapping(value = "/rest/applicationuser/dummy", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ApplicationUser getDummyApplicationUser() {
+        return new ApplicationUser();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/rest/applicationuser", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ApplicationUser addApplicationUser(@RequestBody ApplicationUser applicationUser) {
         try {
             applicationUserService.addApplicationUser(applicationUser);
@@ -40,15 +53,16 @@ public class ApplicationUserResource {
         return applicationUser;
     }
 
+    /**
+     * Gets an ApplicationUser
+     *
+     * @param applicationUserId, ApplicationUser ID to fetch
+     * @return ApplicationUser
+     */
     @ResponseBody
-    @RequestMapping(value = "/rest/applicationuser/{id}", method = RequestMethod.GET)
-    public ApplicationUser getApplicationUser(@PathVariable("id") Integer id) {
-        try {
-            return applicationUserService.getApplicationUser(id);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-        return null;
+    @RequestMapping(value = "/rest/applicationuser/{id}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ApplicationUser getApplicationUser(@PathVariable("id") Integer applicationUserId) {
+        return applicationUserService.getApplicationUser(applicationUserId);
     }
 
     public void setApplicationUserService(ApplicationUserService applicationUserService) {

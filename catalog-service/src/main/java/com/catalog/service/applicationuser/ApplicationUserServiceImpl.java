@@ -21,6 +21,7 @@ import com.catalog.repository.domain.ApplicationUser;
 import com.catalog.service.exception.ServiceException;
 
 /**
+ * ApplicationUserServiceImpl
  * Created by Lance on 12/02/2015.
  */
 public class ApplicationUserServiceImpl implements ApplicationUserService {

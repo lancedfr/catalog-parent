@@ -13,78 +13,82 @@
  * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package com.catalog.server.resources;
+package com.catalog.webapp.resources;
 
 import com.catalog.repository.domain.ApplicationUser;
 import com.catalog.service.applicationuser.ApplicationUserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.nio.charset.Charset;
-
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
+ * ApplicationUserResourcesTest to test Application user resource
  * Created by Lance on 14/02/2015.
  */
-public class ApplicationUserServerTest {
+public class ApplicationUserResourcesTest {
 
-    public static final int RANDOM_LENGTH = 8;
-    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+    private static final int RANDOM_LENGTH = 8;
+    private static final int APPLICATION_USER_ID = 1;
 
     @Mock
     private ApplicationUserService applicationUserService;
-    @Mock
+    @InjectMocks
     private ApplicationUserResource applicationUserResource;
     private MockMvc mockMvc;
 
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
+        applicationUserResource.setApplicationUserService(applicationUserService);
         mockMvc = MockMvcBuilders.standaloneSetup(applicationUserResource).build();
     }
 
     @Test
-    public void testAddApplicationUser() throws Exception {
-        ApplicationUser testApplicationUser = getTestApplicationUser();
-        ObjectMapper mapper = new ObjectMapper();
-        String applicationUserJson = mapper.writeValueAsString(testApplicationUser);
-        mockMvc.perform(post("/rest/applicationuser")//
-                .contentType(APPLICATION_JSON_UTF8)//
-                .content(applicationUserJson))//
-                .andExpect(status().isOk())//
-                .andExpect(content().contentType(APPLICATION_JSON_UTF8))//
-                .andExpect(jsonPath("$.id", is(1)));//
-        verify(applicationUserService, times(1)).addApplicationUser(any(ApplicationUser.class));
+    public void testGetApplicationUser() throws Exception {
+        when(applicationUserService.getApplicationUser(APPLICATION_USER_ID)).thenReturn(getTestApplicationUser());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/applicationuser/{id}".replace("{id}", "1"))//
+                .contentType(MediaType.APPLICATION_JSON))//
+                .andExpect(MockMvcResultMatchers.status().isOk())//
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(APPLICATION_USER_ID)));//
+
+        verify(applicationUserService, times(APPLICATION_USER_ID)).getApplicationUser(APPLICATION_USER_ID);
     }
 
     @Test
-    public void testGetProduct() throws Exception {
-        ApplicationUser testApplicationUser = getTestApplicationUser();
-        when(applicationUserService.getApplicationUser(1)).thenReturn(testApplicationUser);
+    public void testAddApplicationUser() throws Exception {
+        String applicationUserJsonTest = new ObjectMapper().writeValueAsString(getTestApplicationUser());
 
-        mockMvc.perform(get("/rest/applicationuser/{id}".replace("{id}", "1")))//
+        mockMvc.perform(post("/rest/applicationuser")//
+                .contentType(MediaType.APPLICATION_JSON)//
+                .content(applicationUserJsonTest))//
                 .andExpect(status().isOk())//
-                .andExpect(content().contentType(APPLICATION_JSON_UTF8))//
-                .andExpect(jsonPath("$.id", is(1)));//
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))//
+                .andExpect(jsonPath("$.id", is(APPLICATION_USER_ID)));
 
-        verify(applicationUserService, times(1)).getApplicationUser(1);
+        verify(applicationUserService, times(APPLICATION_USER_ID)).addApplicationUser(any(ApplicationUser.class));
+        verifyNoMoreInteractions(applicationUserService);
     }
 
     private ApplicationUser getTestApplicationUser() {
         ApplicationUser applicationUser = new ApplicationUser();
+        applicationUser.setId(APPLICATION_USER_ID);
         applicationUser.setEmailAddress(RandomStringUtils.randomAlphanumeric(RANDOM_LENGTH));
         applicationUser.setFirstName(RandomStringUtils.randomAlphanumeric(RANDOM_LENGTH));
         applicationUser.setGender(RandomStringUtils.randomAlphanumeric(RANDOM_LENGTH));

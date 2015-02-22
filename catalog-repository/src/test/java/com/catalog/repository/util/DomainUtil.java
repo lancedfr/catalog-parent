@@ -23,11 +23,12 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 /**
+ * DomainUtil for tests
  * Created by Lance on 14/02/2015.
  */
 public class DomainUtil {
 
-    public static final int RANDOM_LENGTH = 8;
+    private static final int RANDOM_LENGTH = 8;
 
     private DomainUtil() {
         //private constructor to hide the implicit public one

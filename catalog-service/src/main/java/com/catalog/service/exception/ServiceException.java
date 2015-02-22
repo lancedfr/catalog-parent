@@ -16,6 +16,7 @@
 package com.catalog.service.exception;
 
 /**
+ * Exception for services
  * Created by Lance on 14/02/2015.
  */
 public class ServiceException extends Exception {

@@ -13,12 +13,11 @@
  * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package com.catalog.repository.spring.config;
+package com.catalog.webapp.config;
 
 import com.catalog.spring.config.AbstractSpringConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -28,21 +27,21 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * PersistenceTestConfig for tests
- * Created by Lance on 11/02/2015.
+ * PersistenceConfig for all spring persistence
+ * Created by Lance on 22/02/2015.
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource({"classpath:persistence-test.properties"})
-class PersistenceTestConfig extends AbstractSpringConfiguration {
+//TODO add property source
+//@PropertySource({"classpath:src/test/resources/persistence-test.properties"})
+class PersistenceConfig extends AbstractSpringConfiguration {
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(getApplicationContext().getEnvironment().getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(getApplicationContext().getEnvironment().getProperty("jdbc.url"));
-        dataSource.setUsername(getApplicationContext().getEnvironment().getProperty("jdbc.username"));
-        dataSource.setPassword(getApplicationContext().getEnvironment().getProperty("jdbc.password"));
+        dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+        dataSource.setUrl("jdbc:hsqldb:mem:catalog");
+        dataSource.setUsername("sa");
         dataSource.setPassword("1");
         return dataSource;
     }
@@ -67,8 +66,8 @@ class PersistenceTestConfig extends AbstractSpringConfiguration {
     Properties hibernateProperties() {
         return new Properties() {
             {
-                setProperty("hibernate.hbm2ddl.auto", getApplicationContext().getEnvironment().getProperty("hibernate.hbm2ddl.auto"));
-                setProperty("hibernate.dialect", getApplicationContext().getEnvironment().getProperty("hibernate.dialect"));
+                setProperty("hibernate.hbm2ddl.auto", "create-drop");
+                setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
                 setProperty("hibernate.globally_quoted_identifiers", "true");
                 setProperty("hibernate.show_sql", "true");
                 setProperty("hibernate.format_sql", "true");

@@ -33,6 +33,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * ApplicationUserDaoImplIT integration test
  * Created by Lance on 11/02/2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)

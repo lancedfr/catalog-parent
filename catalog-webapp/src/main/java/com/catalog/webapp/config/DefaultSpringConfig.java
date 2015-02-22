@@ -13,19 +13,16 @@
  * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package com.catalog.service.applicationuser;
+package com.catalog.webapp.config;
 
-import com.catalog.repository.domain.ApplicationUser;
-import com.catalog.service.exception.ServiceException;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
- * ApplicationUserService interface
- * Created by Lance on 12/02/2015.
+ * DefaultSpringConfig to make sure all spring config is executed in the dependant order
+ * Created by Lance on 22/02/2015.
  */
-public interface ApplicationUserService {
-
-    void addApplicationUser(ApplicationUser user) throws ServiceException;
-
-    ApplicationUser getApplicationUser(Integer id);
-
+@Configuration
+@Import({PersistenceConfig.class, DaoConfig.class, ServiceConfig.class, ResourceConfig.class})
+class DefaultSpringConfig {
 }

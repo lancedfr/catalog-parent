@@ -76,7 +76,6 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
             userToUpdate.setAge(user.getAge());
             getCurrentSession().update(userToUpdate);
         } else {
-            ReflectionToStringBuilder.toString(user, ToStringStyle.DEFAULT_STYLE);
             throw new DaoException("User to update not found: " + ReflectionToStringBuilder.toString(user, ToStringStyle.DEFAULT_STYLE));
         }
     }

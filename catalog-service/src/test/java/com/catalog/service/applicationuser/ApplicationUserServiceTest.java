@@ -25,10 +25,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 /**
+ * ApplicationUserServiceTest to test Application User Services
  * Created by Lance on 12/02/2015.
  */
 public class ApplicationUserServiceTest {

@@ -13,35 +13,25 @@
  * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package com.catalog.repository.spring.config;
+package com.catalog.webapp.config;
 
-import com.catalog.repository.dao.ApplicationUserDao;
-import com.catalog.repository.dao.ApplicationUserDaoImpl;
-import com.catalog.repository.dao.ArticleDao;
-import com.catalog.repository.dao.ArticleDaoImpl;
+import com.catalog.service.applicationuser.ApplicationUserService;
 import com.catalog.spring.config.AbstractSpringConfiguration;
-import org.hibernate.SessionFactory;
+import com.catalog.webapp.resources.ApplicationUserResource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * DaoTestConfig for tests
- * Created by Lance on 11/02/2015.
+ * ResourceConfig for spring resources
+ * Created by Lance on 22/02/2015.
  */
 @Configuration
-class DaoTestConfig extends AbstractSpringConfiguration {
+class ResourceConfig extends AbstractSpringConfiguration {
 
     @Bean
-    public ApplicationUserDao productDao() {
-        ApplicationUserDaoImpl applicationUserDao = new ApplicationUserDaoImpl();
-        applicationUserDao.setSessionFactory(getBean(SessionFactory.class));
-        return applicationUserDao;
-    }
-
-    @Bean
-    public ArticleDao articleDao() {
-        ArticleDaoImpl articleDao = new ArticleDaoImpl();
-        articleDao.setSessionFactory(getBean(SessionFactory.class));
-        return articleDao;
+    public ApplicationUserResource applicationUserResource() {
+        ApplicationUserResource applicationUserResource = new ApplicationUserResource();
+        applicationUserResource.setApplicationUserService(getBean(ApplicationUserService.class));
+        return applicationUserResource;
     }
 }
