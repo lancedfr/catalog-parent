@@ -33,7 +33,6 @@
     <modules>
         <module>catalog-spring-config</module>
         <module>catalog-repository</module>
-        <module>catalog-server</module>
         <module>catalog-service</module>
         <module>catalog-webapp</module>
     </modules>
