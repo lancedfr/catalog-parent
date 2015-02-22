@@ -34,7 +34,7 @@ import java.util.List;
 @Transactional
 public class ApplicationUserDaoImpl implements ApplicationUserDao {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ApplicationUserDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationUserDaoImpl.class);
 
     /**
      * The session factory.

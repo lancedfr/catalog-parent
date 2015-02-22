@@ -62,11 +62,11 @@ public class ApplicationUserResourcesTest {
     public void testGetApplicationUser() throws Exception {
         when(applicationUserService.getApplicationUser(APPLICATION_USER_ID)).thenReturn(getTestApplicationUser());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/rest/applicationuser/{id}".replace("{id}", "1"))//
-                .contentType(MediaType.APPLICATION_JSON))//
-                .andExpect(MockMvcResultMatchers.status().isOk())//
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))//
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(APPLICATION_USER_ID)));//
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/applicationuser/{id}".replace("{id}", "1"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(APPLICATION_USER_ID)));
 
         verify(applicationUserService, times(APPLICATION_USER_ID)).getApplicationUser(APPLICATION_USER_ID);
     }
@@ -75,11 +75,11 @@ public class ApplicationUserResourcesTest {
     public void testAddApplicationUser() throws Exception {
         String applicationUserJsonTest = new ObjectMapper().writeValueAsString(getTestApplicationUser());
 
-        mockMvc.perform(post("/rest/applicationuser")//
-                .contentType(MediaType.APPLICATION_JSON)//
-                .content(applicationUserJsonTest))//
-                .andExpect(status().isOk())//
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))//
+        mockMvc.perform(post("/rest/applicationuser")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(applicationUserJsonTest))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(APPLICATION_USER_ID)));
 
         verify(applicationUserService, times(APPLICATION_USER_ID)).addApplicationUser(any(ApplicationUser.class));

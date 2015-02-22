@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ApplicationUserResource {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ApplicationUserResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationUserResource.class);
 
     private ApplicationUserService applicationUserService;
 

@@ -38,7 +38,7 @@ import java.util.List;
 @Transactional
 public class ArticleDaoImpl implements ArticleDao {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ArticleDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArticleDaoImpl.class);
 
     private SessionFactory sessionFactory;
 
