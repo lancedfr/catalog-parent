@@ -15,6 +15,7 @@
 
 package com.catalog.repository.dao;
 
+import com.catalog.repository.dao.exception.DaoException;
 import com.catalog.repository.domain.Article;
 import com.catalog.repository.spring.config.DefaultDaoTestConfig;
 import com.catalog.repository.util.DomainUtil;
@@ -49,7 +50,7 @@ public class ArticleDaoImplIT {
     }
 
     @Test
-    public void testGetArticle() {
+    public void testGetArticle() throws DaoException {
         //Creating a new Article
         Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
@@ -60,11 +61,11 @@ public class ArticleDaoImplIT {
         //Assert the objects
         assertEquals(getArticle.getName(), testArticle.getName());
 
-        articleDao.deleteArticle(testArticle);
+        articleDao.deleteArticle(testArticle.getId());
     }
 
     @Test
-    public void testUpdateArticle() {
+    public void testUpdateArticle() throws DaoException {
         //Create Article
         Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
@@ -78,11 +79,11 @@ public class ArticleDaoImplIT {
         Article updatedArticle = articleDao.getArticle(updateArticle.getId());
 
         assertEquals("New Product", updatedArticle.getName());
-        articleDao.deleteArticle(testArticle);
+        articleDao.deleteArticle(testArticle.getId());
     }
 
     @Test
-    public void testAddArticle() {
+    public void testAddArticle() throws DaoException {
         //Create Article
         Article testArticle = DomainUtil.getTestArticle();
 
@@ -101,27 +102,26 @@ public class ArticleDaoImplIT {
 
         assertEquals(2, articleList.size());
 
-        articleDao.deleteArticle(testArticle);
-        articleDao.deleteArticle(testSecondArticle);
+        articleDao.deleteArticle(testArticle.getId());
+        articleDao.deleteArticle(testSecondArticle.getId());
     }
 
     @Test
-    public void testDeleteArticle() {
+    public void testDeleteArticle() throws DaoException {
         //Create Article
         Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
 
         //Delete Article
         Article deleteArticle = articleDao.getArticle(testArticle.getId());
-        articleDao.deleteArticle(deleteArticle);
+        articleDao.deleteArticle(deleteArticle.getId());
 
         List<Article> articles = articleDao.getArticles();
         assertEquals(0, articles.size());
-        articleDao.deleteArticle(testArticle);
     }
 
     @Test
-    public void testFindArticleByName() {
+    public void testFindArticleByName() throws DaoException {
         //Create Article
         Article testArticle = DomainUtil.getTestArticle();
         articleDao.addArticle(testArticle);
@@ -130,6 +130,6 @@ public class ArticleDaoImplIT {
         Article findArticle = articleDao.getArticleByName(testArticle.getName());
 
         assertEquals(findArticle.getBarcode(), testArticle.getBarcode());
-        articleDao.deleteArticle(testArticle);
+        articleDao.deleteArticle(testArticle.getId());
     }
 }

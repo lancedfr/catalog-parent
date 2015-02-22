@@ -70,9 +70,9 @@ class PersistenceTestConfig extends AbstractSpringConfiguration {
                 setProperty("hibernate.hbm2ddl.auto", getApplicationContext().getEnvironment().getProperty("hibernate.hbm2ddl.auto"));
                 setProperty("hibernate.dialect", getApplicationContext().getEnvironment().getProperty("hibernate.dialect"));
                 setProperty("hibernate.globally_quoted_identifiers", "true");
-                setProperty("hibernate.show_sql", "true");
+                setProperty("hibernate.show_sql", getApplicationContext().getEnvironment().getProperty("hibernate.show_sql"));
                 setProperty("hibernate.format_sql", "true");
-                setProperty("hibernate.generate_statistics", "true");
+                setProperty("hibernate.generate_statistics", getApplicationContext().getEnvironment().getProperty("hibernate.generate_statistics"));
             }
         };
     }

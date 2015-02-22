@@ -13,29 +13,17 @@
  * If not, please obtain a copy here http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package com.catalog.repository.dao;
+package com.catalog.webapp.exception;
 
-import com.catalog.repository.dao.exception.DaoException;
-import com.catalog.repository.domain.Article;
-
-import java.util.List;
+import javax.xml.ws.WebServiceException;
 
 /**
- * ArticleDao interface
- * Created by ShaneMK on 2015/02/13.
+ * Exception for resources
+ * Created by Lance on 22/02/2015.
  */
-public interface ArticleDao {
+public class ResourceException extends WebServiceException {
 
-    public void addArticle(Article article) throws DaoException;
-
-    public void deleteArticle(Integer id);
-
-    public void updateArticle(Article article) throws DaoException;
-
-    public Article getArticle(Integer id);
-
-    public Article getArticleByName(String name);
-
-    List<Article> getArticles();
-
+    public ResourceException(Exception e) {
+        super(e);
+    }
 }

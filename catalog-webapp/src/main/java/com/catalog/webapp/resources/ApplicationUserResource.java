@@ -18,16 +18,20 @@ package com.catalog.webapp.resources;
 import com.catalog.repository.domain.ApplicationUser;
 import com.catalog.service.applicationuser.ApplicationUserService;
 import com.catalog.service.exception.ServiceException;
+import com.catalog.webapp.exception.ResourceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * ApplicationUserResource to expose services for ApplicationUser externally
  * Created by Lance on 13/02/2015.
  */
-@Controller
+@RestController
 public class ApplicationUserResource {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(ApplicationUserResource.class);
 
     private ApplicationUserService applicationUserService;
 
@@ -39,6 +43,7 @@ public class ApplicationUserResource {
     @ResponseBody
     @RequestMapping(value = "/rest/applicationuser/dummy", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ApplicationUser getDummyApplicationUser() {
+        LOGGER.debug("Getting dummy user");
         return new ApplicationUser();
     }
 
@@ -46,9 +51,11 @@ public class ApplicationUserResource {
     @RequestMapping(value = "/rest/applicationuser", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ApplicationUser addApplicationUser(@RequestBody ApplicationUser applicationUser) {
         try {
+            LOGGER.debug("Adding application user {}", applicationUser);
             applicationUserService.addApplicationUser(applicationUser);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            throw new ResourceException(e);
         }
         return applicationUser;
     }
@@ -62,6 +69,7 @@ public class ApplicationUserResource {
     @ResponseBody
     @RequestMapping(value = "/rest/applicationuser/{id}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ApplicationUser getApplicationUser(@PathVariable("id") Integer applicationUserId) {
+        LOGGER.debug("Getting application user id={}", applicationUserId);
         return applicationUserService.getApplicationUser(applicationUserId);
     }
 

@@ -15,10 +15,15 @@
 
 package com.catalog.repository.dao;
 
+import com.catalog.repository.dao.exception.DaoException;
 import com.catalog.repository.domain.Article;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -33,6 +38,8 @@ import java.util.List;
 @Transactional
 public class ArticleDaoImpl implements ArticleDao {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(ArticleDaoImpl.class);
+
     private SessionFactory sessionFactory;
 
     private Session getCurrentSession() {
@@ -40,26 +47,29 @@ public class ArticleDaoImpl implements ArticleDao {
     }
 
     @Override
-    public void addArticle(Article article) {
+    public void addArticle(Article article) throws DaoException {
+        LOGGER.debug("Adding article");
         Article addArticle = getArticle(article.getId());
         if (addArticle != null) {
             article.setId(addArticle.getId());
             updateArticle(article);
         } else {
+            LOGGER.warn("Adding id:{} found, performing update", article.getId());
             getCurrentSession().save(article);
         }
     }
 
     @Override
-    public void deleteArticle(Article article) {
-        Article deleteArticle = getArticle(article.getId());
-        if (deleteArticle != null) {
-            getCurrentSession().delete(deleteArticle);
-        }
+    public void deleteArticle(Integer id) {
+        LOGGER.debug("Deleting application user");
+        Article article = new Article();
+        article.setId(id);
+        getCurrentSession().delete(article);
     }
 
     @Override
-    public void updateArticle(Article article) {
+    public void updateArticle(Article article) throws DaoException {
+        LOGGER.debug("Updating article");
         Article updateArticle = getArticle(article.getId());
         if (updateArticle != null) {
             updateArticle.setName(article.getName());
@@ -71,22 +81,29 @@ public class ArticleDaoImpl implements ArticleDao {
             updateArticle.setShortDescription(article.getShortDescription());
             updateArticle.setPrice(article.getPrice());
             getCurrentSession().update(updateArticle);
+        } else {
+            String articleString = ReflectionToStringBuilder.toString(article, ToStringStyle.DEFAULT_STYLE);
+            LOGGER.error("Article to update not found: {}", articleString);
+            throw new DaoException("Article to update not found: " + articleString);
         }
     }
 
     @Override
     public Article getArticle(Integer id) {
+        LOGGER.debug("Get article user id={}", id);
         return (Article) getCurrentSession().get(Article.class, id);
     }
 
     @Override
     public Article getArticleByName(String name) {
+        LOGGER.debug("Get article user name={}", name);
         return (Article) getCurrentSession().createCriteria(Article.class).add(Restrictions.eq("name", name)).uniqueResult();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Article> getArticles() {
+        LOGGER.debug("Get articles");
         return getCurrentSession().createCriteria(Article.class).list();
     }
 

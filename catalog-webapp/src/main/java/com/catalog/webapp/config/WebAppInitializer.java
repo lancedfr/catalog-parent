@@ -23,18 +23,17 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
-
 /**
  * WebAppInitializer is equivalent to the web.xml, this project is fully blown java config
  * Created by Lance on 21/02/2015.
  */
-class WebAppInitializer implements WebApplicationInitializer {
+public class WebAppInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext container) {
         // Create the 'root' Spring application context
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(DefaultSpringConfig.class);
+        rootContext.register(PersistenceConfig.class, DaoConfig.class, ServiceConfig.class, ResourceConfig.class);
 
         // Manage the lifecycle of the root application context
         container.addListener(new ContextLoaderListener(rootContext));
@@ -47,6 +46,5 @@ class WebAppInitializer implements WebApplicationInitializer {
         ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher", new DispatcherServlet(dispatcherServlet));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
-
     }
 }

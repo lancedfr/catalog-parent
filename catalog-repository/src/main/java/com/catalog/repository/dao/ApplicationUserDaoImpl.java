@@ -22,6 +22,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,8 @@ import java.util.List;
 @Repository
 @Transactional
 public class ApplicationUserDaoImpl implements ApplicationUserDao {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(ApplicationUserDaoImpl.class);
 
     /**
      * The session factory.
@@ -48,10 +52,12 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
 
     @Override
     public void addApplicationUser(ApplicationUser user) throws DaoException {
+        LOGGER.debug("Adding application user");
         ApplicationUser applicationUserByEmailAddress = getApplicationUserByEmailAddress(user.getEmailAddress());
         if (applicationUserByEmailAddress == null) {
             getCurrentSession().save(user);
         } else {
+            LOGGER.warn("Application user id:{} found, performing update", user.getId());
             user.setId(applicationUserByEmailAddress.getId());
             updateApplicationUser(user);
         }
@@ -59,6 +65,7 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
 
     @Override
     public void deleteApplicationUser(Integer id) {
+        LOGGER.debug("Deleting application user");
         ApplicationUser applicationUser = new ApplicationUser();
         applicationUser.setId(id);
         getCurrentSession().delete(applicationUser);
@@ -66,6 +73,7 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
 
     @Override
     public void updateApplicationUser(ApplicationUser user) throws DaoException {
+        LOGGER.debug("Updating application user");
         ApplicationUser userToUpdate = getApplicationUser(user.getId());
         if (userToUpdate != null) {
             userToUpdate.setFirstName(user.getFirstName());
@@ -76,17 +84,21 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
             userToUpdate.setAge(user.getAge());
             getCurrentSession().update(userToUpdate);
         } else {
-            throw new DaoException("User to update not found: " + ReflectionToStringBuilder.toString(user, ToStringStyle.DEFAULT_STYLE));
+            String userString = ReflectionToStringBuilder.toString(user, ToStringStyle.DEFAULT_STYLE);
+            LOGGER.error("User to update not found: {}", userString);
+            throw new DaoException("User to update not found: " + userString);
         }
     }
 
     @Override
     public ApplicationUser getApplicationUser(Integer id) {
+        LOGGER.debug("Get application user id={}", id);
         return (ApplicationUser) getCurrentSession().get(ApplicationUser.class, id);
     }
 
     @Override
     public ApplicationUser getApplicationUserByEmailAddress(String emailAddress) {
+        LOGGER.debug("Get application email={}", emailAddress);
         return (ApplicationUser) getCurrentSession().createCriteria(ApplicationUser.class)
                 .add(Restrictions.eq("emailAddress", emailAddress)).uniqueResult();
     }
@@ -94,6 +106,7 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<ApplicationUser> getApplicationUsers() {
+        LOGGER.debug("Get application users");
         return getCurrentSession().createCriteria(ApplicationUser.class).list();
     }
 
