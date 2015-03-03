@@ -18,6 +18,7 @@ package com.catalog.webapp.config;
 import com.catalog.spring.config.AbstractSpringConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -32,17 +33,16 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-//TODO add property source
-//@PropertySource({"classpath:src/test/resources/persistence-test.properties"})
+@PropertySource({"classpath:persistence.properties"})
 class PersistenceConfig extends AbstractSpringConfiguration {
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-        dataSource.setUrl("jdbc:hsqldb:mem:catalog");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("1");
+        dataSource.setDriverClassName(getApplicationContext().getEnvironment().getProperty("jdbc.driverClassName"));
+        dataSource.setUrl(getApplicationContext().getEnvironment().getProperty("jdbc.url"));
+        dataSource.setUsername(getApplicationContext().getEnvironment().getProperty("jdbc.username"));
+        dataSource.setPassword(getApplicationContext().getEnvironment().getProperty("jdbc.password"));
         return dataSource;
     }
 
@@ -51,7 +51,7 @@ class PersistenceConfig extends AbstractSpringConfiguration {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getBean(DataSource.class));
         sessionFactory.setPackagesToScan("com.catalog.repository.domain");
-        sessionFactory.setHibernateProperties(hibernateProperties());
+        sessionFactory.setHibernateProperties(getHibernateProperties());
         return sessionFactory;
     }
 
@@ -63,15 +63,16 @@ class PersistenceConfig extends AbstractSpringConfiguration {
         return hibernateTransactionManager;
     }
 
-    Properties hibernateProperties() {
+    private Properties getHibernateProperties() {
         return new Properties() {
+            private static final long serialVersionUID = -1242383113279315882L;
             {
-                setProperty("hibernate.hbm2ddl.auto", "create-drop");
-                setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+                setProperty("hibernate.hbm2ddl.auto", getApplicationContext().getEnvironment().getProperty("hibernate.hbm2ddl.auto"));
+                setProperty("hibernate.dialect", getApplicationContext().getEnvironment().getProperty("hibernate.dialect"));
                 setProperty("hibernate.globally_quoted_identifiers", "true");
-                setProperty("hibernate.show_sql", "true");
+                setProperty("hibernate.show_sql", getApplicationContext().getEnvironment().getProperty("hibernate.show_sql"));
                 setProperty("hibernate.format_sql", "true");
-                setProperty("hibernate.generate_statistics", "true");
+                setProperty("hibernate.generate_statistics", getApplicationContext().getEnvironment().getProperty("hibernate.generate_statistics"));
             }
         };
     }

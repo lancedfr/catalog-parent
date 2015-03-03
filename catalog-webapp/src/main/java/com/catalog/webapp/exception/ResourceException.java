@@ -23,6 +23,8 @@ import javax.xml.ws.WebServiceException;
  */
 public class ResourceException extends WebServiceException {
 
+    private static final long serialVersionUID = 4958788623894530733L;
+
     public ResourceException(Exception e) {
         super(e);
     }

@@ -106,6 +106,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>${tomcat7.version}</version>
                 <configuration>
+                    <additionalClasspathDirs>
+                        <additionalClasspathDir>${basedir}/src/tomcat7/resources</additionalClasspathDir>
+                    </additionalClasspathDirs>
                     <useTestClasspath>true</useTestClasspath>
                 </configuration>
             </plugin>
