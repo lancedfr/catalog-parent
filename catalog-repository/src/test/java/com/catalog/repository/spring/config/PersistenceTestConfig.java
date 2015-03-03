@@ -33,7 +33,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource({"classpath:persistence-test-config.properties"})
+@PropertySource({"classpath:persistence-test.properties"})
 class PersistenceTestConfig extends AbstractSpringConfiguration {
 
     @Bean
