@@ -33,7 +33,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource({"classpath:persistence-test.properties"})
+@PropertySource({"classpath:persistence-test-config.properties"})
 class PersistenceTestConfig extends AbstractSpringConfiguration {
 
     @Bean
@@ -43,7 +43,6 @@ class PersistenceTestConfig extends AbstractSpringConfiguration {
         dataSource.setUrl(getApplicationContext().getEnvironment().getProperty("jdbc.url"));
         dataSource.setUsername(getApplicationContext().getEnvironment().getProperty("jdbc.username"));
         dataSource.setPassword(getApplicationContext().getEnvironment().getProperty("jdbc.password"));
-        dataSource.setPassword("1");
         return dataSource;
     }
 
