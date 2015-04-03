@@ -21,6 +21,8 @@ package com.catalog.repository.dao.exception;
  */
 public class DaoException extends Exception {
 
+    private static final long serialVersionUID = 1209018898220868878L;
+
     public DaoException() {
         super();
     }

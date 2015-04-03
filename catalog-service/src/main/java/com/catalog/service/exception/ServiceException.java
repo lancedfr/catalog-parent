@@ -20,6 +20,9 @@ package com.catalog.service.exception;
  * Created by Lance on 14/02/2015.
  */
 public class ServiceException extends Exception {
+
+    private static final long serialVersionUID = 8784436071053442989L;
+
     public ServiceException() {
         super();
     }

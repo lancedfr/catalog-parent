@@ -23,6 +23,8 @@ import org.springframework.beans.BeansException;
  */
 public class SpringConfigException extends BeansException {
 
+    private static final long serialVersionUID = 5127124997279591459L;
+
     public SpringConfigException(String message, Throwable cause) {
         super(message, cause);
     }
