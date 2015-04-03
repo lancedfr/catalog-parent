@@ -63,7 +63,7 @@ class PersistenceTestConfig extends AbstractSpringConfiguration {
         return hibernateTransactionManager;
     }
 
-    Properties hibernateProperties() {
+    private Properties hibernateProperties() {
         return new Properties() {
             {
                 setProperty("hibernate.hbm2ddl.auto", getApplicationContext().getEnvironment().getProperty("hibernate.hbm2ddl.auto"));

@@ -22,15 +22,15 @@ import java.util.List;
 
 public interface ApplicationUserDao {
 
-    public void addApplicationUser(ApplicationUser user) throws DaoException;
+    void addApplicationUser(ApplicationUser user) throws DaoException;
 
-    public void deleteApplicationUser(Integer id);
+    void deleteApplicationUser(Integer id);
 
-    public void updateApplicationUser(ApplicationUser user) throws DaoException;
+    void updateApplicationUser(ApplicationUser user) throws DaoException;
 
-    public ApplicationUser getApplicationUser(Integer id);
+    ApplicationUser getApplicationUser(Integer id);
 
-    public ApplicationUser getApplicationUserByEmailAddress(String userName);
+    ApplicationUser getApplicationUserByEmailAddress(String userName);
 
     List<ApplicationUser> getApplicationUsers();
 }

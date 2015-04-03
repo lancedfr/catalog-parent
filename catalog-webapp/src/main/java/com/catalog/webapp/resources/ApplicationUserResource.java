@@ -34,7 +34,7 @@ public class ApplicationUserResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationUserResource.class);
 
-    //TODO Dont use autowired, use set method
+    //TODO Don't use autowired, use set method
     @Autowired
     private ApplicationUserService applicationUserService;
 

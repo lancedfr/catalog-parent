@@ -26,15 +26,15 @@ import java.util.List;
  */
 public interface ArticleDao {
 
-    public void addArticle(Article article) throws DaoException;
+    void addArticle(Article article) throws DaoException;
 
-    public void deleteArticle(Integer id);
+    void deleteArticle(Integer id);
 
-    public void updateArticle(Article article) throws DaoException;
+    void updateArticle(Article article) throws DaoException;
 
-    public Article getArticle(Integer id);
+    Article getArticle(Integer id);
 
-    public Article getArticleByName(String name);
+    Article getArticleByName(String name);
 
     List<Article> getArticles();
 

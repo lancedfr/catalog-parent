@@ -44,9 +44,7 @@ public class AbstractSpringConfiguration implements BeanFactoryPostProcessor, Be
         if (m != null) {
             try {
                 m.invoke(this, bean);
-            } catch (IllegalAccessException e) {
-                throw new SpringConfigException(e.getMessage(), e);
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new SpringConfigException(e.getMessage(), e);
             }
         }
@@ -72,7 +70,7 @@ public class AbstractSpringConfiguration implements BeanFactoryPostProcessor, Be
     }
 
     private Map<Class<?>, Method> createMapOfDependencyInjectors() {
-        Map<Class<?>, Method> map = new HashMap<Class<?>, Method>();
+        Map<Class<?>, Method> map = new HashMap<>();
         Method[] methods = getClass().getMethods();
         for (Method method : methods) {
             if (method.getAnnotation(DependencyInjector.class) != null) {
