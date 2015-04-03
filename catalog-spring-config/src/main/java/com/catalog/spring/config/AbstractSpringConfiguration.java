@@ -16,7 +16,6 @@
 package com.catalog.spring.config;
 
 import com.catalog.spring.config.exception.SpringConfigException;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -34,12 +33,12 @@ public class AbstractSpringConfiguration implements BeanFactoryPostProcessor, Be
     private Map<Class<?>, Method> returnTypeToDependencyInjector;
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean, String beanName) {
         return bean;
     }
 
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(Object bean, String beanName) {
         Method m = returnTypeToDependencyInjector.get(bean.getClass());
         if (m != null) {
             try {
@@ -52,7 +51,7 @@ public class AbstractSpringConfiguration implements BeanFactoryPostProcessor, Be
     }
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         returnTypeToDependencyInjector = createMapOfDependencyInjectors();
     }
 
@@ -61,7 +60,7 @@ public class AbstractSpringConfiguration implements BeanFactoryPostProcessor, Be
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
