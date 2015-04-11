@@ -32,8 +32,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ApplicationUserResource {
 
+    public static final String GET_DUMMY_URL = RootResource.API_URL + "/applicationuser/dummy";
+    public static final String POST_APPLICATION_USER_URL = RootResource.API_URL + "/applicationuser";
+    public static final String GET_APPLICATION_USER_URL = RootResource.API_URL + "/applicationuser/{id}";
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationUserResource.class);
-
     //TODO Don't use autowired, use set method
     @Autowired
     private ApplicationUserService applicationUserService;
@@ -44,14 +46,14 @@ public class ApplicationUserResource {
      * @return the ApplicationUser product
      */
     @ResponseBody
-    @RequestMapping(value = "/rest/applicationuser/dummy", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = ApplicationUserResource.GET_DUMMY_URL, method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ApplicationUser getDummyApplicationUser() {
         LOGGER.debug("Getting dummy user");
         return new ApplicationUser();
     }
 
     @ResponseBody
-    @RequestMapping(value = "/rest/applicationuser", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = ApplicationUserResource.POST_APPLICATION_USER_URL, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ApplicationUser addApplicationUser(@RequestBody ApplicationUser applicationUser) {
         try {
             LOGGER.debug("Adding application user {}", applicationUser);
@@ -70,7 +72,7 @@ public class ApplicationUserResource {
      * @return ApplicationUser
      */
     @ResponseBody
-    @RequestMapping(value = "/rest/applicationuser/{id}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = ApplicationUserResource.GET_APPLICATION_USER_URL, method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ApplicationUser getApplicationUser(@PathVariable("id") Integer applicationUserId) {
         LOGGER.debug("Getting application user id={}", applicationUserId);
         return applicationUserService.getApplicationUser(applicationUserId);
